@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            text-align: center;
+        }
+        input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 150px;
+            font-size: 18px;
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Input Game</h1>
+        <p>Seconds: <span id="timer">0</span></p>
+        
+        <label for="userInput">Your Number:</label><br>
+        <input type="number" id="userInput"><br>
+
+        <label for="machineInput">Machine's Number:</label><br>
+        <input type="number" id="machineInput" disabled><br>
+
+        <div class="score">
+            <p>Human Score: <span id="humanScore">0</span></p>
+            <p>Machine Score: <span id="machineScore">0</span></p>
+        </div>
+
+        <button id="resetButton">Reset Game</button>
+    </div>
+
+    <script>
+        let humanScore = 0;
+        let machineScore = 0;
+        let seconds = 0;
+
+        setInterval(() => {
+            seconds++;
+            document.getElementById('timer').innerText = seconds;
+        }, 1000);
+
+        function generateMachineInput() {
+            let machineInput = Math.floor(Math.random() * 100);
+            document.getElementById('machineInput').value = machineInput;
+            return machineInput;
+        }
+
+        document.getElementById('userInput').addEventListener('input', function () {
+            let userValue = parseInt(this.value);
+            if (isNaN(userValue)) return;
+
+            let machineValue = generateMachineInput();
+
+            if (userValue === machineValue) {
+                humanScore++;
+            } else {
+                machineScore++;
+            }
+
+            document.getElementById('humanScore').innerText = humanScore;
+            document.getElementById('machineScore').innerText = machineScore;
+
+            this.value = '';
+        });
+
+        document.getElementById('resetButton').addEventListener('click', function () {
+            humanScore = 0;
+            machineScore = 0;
+            seconds = 0;
+            document.getElementById('humanScore').innerText = humanScore;
+            document.getElementById('machineScore').innerText = machineScore;
+            document.getElementById('timer').innerText = seconds;
+            document.getElementById('userInput').value = '';
+            document.getElementById('machineInput').value = '';
+        });
+    </script>
+
+</body>
+</html>
